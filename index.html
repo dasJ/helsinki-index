@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Helsinki Options</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="Helsinki index" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="material-components-web.min.css">
+		<link rel="stylesheet" href="style.css">
+		<link rel="shortcut icon" type="image/png" href="favicon.png" />
+		<link rel="manifest" href="manifest.json" />
+	</head>
+	<body class="mdc-typography">
+		<header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+			<div class="mdc-top-app-bar__row">
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+					<span class="mdc-top-app-bar__title" id="header-main-text">Options</span>
+				</section>
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+					<button class="mdc-button mdc-button--unelevated" id="switch-opts-pkgs">
+						<span class="mdc-button__label" id="header-nonmain-text">Packages</span>
+					</button>
+				</section>
+			</div>
+		</header>
+		<main class="mdc-top-app-bar--fixed-adjust">
+			<div class="filter">
+				<!-- Search field -->
+				<div class="mdc-text-field mdc-text-field--with-leading-icon">
+					<i class="material-icons mdc-text-field__icon">search</i>
+					<input class="mdc-text-field__input" type="text" id="search">
+					<div class="mdc-line-ripple"></div>
+					<label class="mdc-floating-label" for="search">Search</label>
+				</div>
+
+				<div class="mdc-form-field" id="home-manager-field">
+					<div class="mdc-checkbox">
+						<input type="checkbox" class="mdc-checkbox__native-control" id="home-manager">
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="home-manager">home-manager</label>
+				</div>
+			</div>
+			<div class="paging">
+				<div id="how-many">&nbsp;</div>
+
+				<button class="mdc-button paging-first"><span class="mdc-button__label">First</span></button>
+				<button class="mdc-button paging-prev"><span class="mdc-button__label">Previous</span></button>
+				<button class="mdc-button paging-next"><span class="mdc-button__label">Next</span></button>
+				<button class="mdc-button paging-last"><span class="mdc-button__label">Last</span></button>
+			</div>
+
+			<div id="nothing-found">
+				Nothing was found for your search.
+			</div>
+			<div id="loading-error">
+				Error while loading results.
+			</div>
+
+			<div class="loading">
+				<div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
+					<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+						<span class="mdc-linear-progress__bar-inner"></span>
+					</div>
+					<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+						<span class="mdc-linear-progress__bar-inner"></span>
+					</div>
+				</div>
+			</div>
+
+			<ul class="mdc-list"></ul>
+
+			<div class="paging">
+				<button class="mdc-button paging-first"><span class="mdc-button__label">First</span></button>
+				<button class="mdc-button paging-prev"><span class="mdc-button__label">Previous</span></button>
+				<button class="mdc-button paging-next"><span class="mdc-button__label">Next</span></button>
+				<button class="mdc-button paging-last"><span class="mdc-button__label">Last</span></button>
+			</div>
+		</main>
+		<script src="material-components-web.min.js"></script>
+		<script src="jquery-3.3.1.min.js"></script>
+		<script src="script.js"></script>
+	</body>
+</html>

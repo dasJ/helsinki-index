@@ -1,0 +1,27 @@
+{
+	"name": "Helsinki options",
+	"short_name": "Options",
+	"description": "Helsinki index",
+	"lang": "en-US",
+	"display": "standalone",
+	"start_url": ".",
+	"background_color": "white",
+	"theme_color": "#720000",
+	"icons": [
+		{
+			"src": "logo/nixos-144.png",
+			"sizes": "144x144",
+			"type": "image/png"
+		},
+		{
+			"src": "logo/nixos-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "logo/nixos-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}

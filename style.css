@@ -1,0 +1,107 @@
+body {
+	margin: 0;
+}
+
+/* Filter */
+.filter {
+	padding: 2em 20% 0 20%;
+}
+
+.filter .search {
+	width: 30%;
+}
+
+/* Paging */
+.paging {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0 20%;
+	justify-content: center;
+}
+
+.paging #how-many {
+	width: 100%;
+	flex-grow: 1;
+}
+
+/* Loading */
+.loading {
+	padding: 0 20%;
+}
+
+#loading-error {
+	padding: 0 20%;
+	display: none;
+	color: red;
+}
+
+.paging button {
+	margin: 1em;
+}
+
+/* Nothing found */
+#nothing-found {
+	display: none;
+	padding: 0 20%;
+	font-weight: bold;
+}
+
+/* Result list */
+.mdc-list {
+	padding: 0 20%;
+}
+
+.mdc-list-item {
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	min-height: 48px;
+	height: unset;
+}
+
+
+.mdc-list .title {
+	width: 100%;
+	flex-grow: 1;
+	font-family: monospace;
+}
+
+.mdc-list .content {
+	flex-grow: 1;
+	padding: 1em;
+	display: none;
+}
+
+.mdc-list table td {
+	padding-top: .5em;
+}
+
+.mdc-list table td:last-child {
+	padding-left: 1em;
+}
+
+.mdc-list table td:first-child {
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.mdc-list li {
+	border: solid transparent;
+}
+
+.mdc-list li:nth-child(even) {
+	background: #cccccc;
+}
+
+.expanded {
+	border: solid #888888 !important;
+}
+
+.expanded .mdc-list-item__secondary-text,
+.expanded .mdc-list-item__meta {
+	display: none;
+}
+
+.pre {
+	white-space: pre-wrap;
+	font-family: monospace;
+}
