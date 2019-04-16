@@ -5,21 +5,21 @@
 	"lang": "en-US",
 	"display": "standalone",
 	"start_url": ".",
-	"background_color": "white",
-	"theme_color": "#720000",
+	"background_color": "#0072c6",
+	"theme_color": "#ffc61e",
 	"icons": [
 		{
-			"src": "logo/nixos-144.png",
+			"src": "logo/icon-144.png",
 			"sizes": "144x144",
 			"type": "image/png"
 		},
 		{
-			"src": "logo/nixos-192.png",
+			"src": "logo/icon-192.png",
 			"sizes": "192x192",
 			"type": "image/png"
 		},
 		{
-			"src": "logo/nixos-512.png",
+			"src": "logo/icon-512.png",
 			"sizes": "512x512",
 			"type": "image/png"
 		}

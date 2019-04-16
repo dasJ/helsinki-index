@@ -2,12 +2,21 @@ body {
 	margin: 0;
 }
 
+:root {
+	--mdc-theme-primary: #0072c6;
+	--mdc-theme-secondary: #ffc61e;
+}
+
 .mdc-top-app-bar--fixed-adjust {
 	padding-left: 20%;
 	padding-right: 20%;
 }
 
-@media only screen and (max-width: 800px) {
+#header-main-icon {
+	height: 100%;
+}
+
+@media only screen and (max-width: 1080px) {
 	.mdc-top-app-bar--fixed-adjust {
 		padding-left: 0;
 		padding-right: 0;
@@ -17,6 +26,10 @@ body {
 /* Filter */
 .filter .search {
 	width: 30%;
+}
+
+.filter > div {
+	vertical-align: super;
 }
 
 /* Paging */
