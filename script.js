@@ -8,6 +8,7 @@ var helsinkiUrl = 'https://no-url-yet/';
 var expanded = null; // Currently expanded object
 var optionData = {}; // All option data
 var pkgsData = {}; // All packages data
+var dataDate = ''; // When the data was received
 var results = null; // Results of the current search
 var isHm = false; // Are we running for home-manager?
 var isPkgs = false; // Are we rendering packages?
@@ -21,7 +22,10 @@ function refilter() {
 		return;
 	}
 	$('#loading-error').hide();
-	var dat = (isPkgs ? pkgsData : optionData)[key];
+	var dat = (isPkgs ? pkgsData : optionData)[key]['data'];
+	if (isPkgs) {
+		dat = dat['packages'];
+	}
 
 	var query = $('#search').val().toLowerCase().split(/ +/).filter(Boolean);
 
@@ -47,6 +51,8 @@ function refilter() {
 			return (isPkgs ? query.every(matchPkg) : query.every(matchOption));
 		});
 	}
+
+	dataDate = (isPkgs ? pkgsData : optionData)[key]['when'];
 
 	// Update URL
 	var encodedQuery = query.map(function(value) {
@@ -90,6 +96,7 @@ function updateTable() {
 	// Nothing found?
 	if (results.length == 0) {
 		$('#how-many').html('&nbsp;');
+		$('#data-date').html('&nbsp;');
 		$('#nothing-found').show();
 		$('.paging mdc-button').prop('disabled', true);
 		return;
@@ -98,6 +105,10 @@ function updateTable() {
 
 	// Update how-many
 	$('#how-many').text('Showing results ' + (start + 1) + '-' + end + ' of ' + results.length + '.');
+	$('#data-date').html('Data is from ' + dataDate + '. <button class="mdc-button update-now"><span class="-mdc-button__label">Update now</span></button>');
+	$('.update-now').click(function(e) {
+		requestRelease();
+	});
 
 	// Handle paging
 	$('.paging-first').prop('disabled', curPage == 0);
@@ -106,7 +117,10 @@ function updateTable() {
 	$('.paging-last').prop('disabled', curPage >= lastPage);
 
 	// Build list
-	var data = (isPkgs ? pkgsData : optionData)[(isHm ? 'hm-' : '') + currentRelease];
+	var data = (isPkgs ? pkgsData : optionData)[(isHm ? 'hm-' : '') + currentRelease]['data'];
+	if (isPkgs) {
+		data = data['packages'];
+	}
 	res.forEach(function(name) {
 		var config = data[name];
 
@@ -543,8 +557,14 @@ function requestRelease() {
 			$('.mdc-list').empty();
 		},
 		success: function(data) {
+			if (!('when' in data)) {
+				data = {
+					data: data,
+					when: 'just now'
+				};
+			}
 			if (isPkgs) {
-				pkgsData[currentRelease] = data.packages;
+				pkgsData[currentRelease] = data;
 			} else {
 				var optionKey = (isHm ? 'hm-' : '') + currentRelease;
 				optionData[optionKey] = data;
@@ -709,6 +729,9 @@ if (query.length >= 4) {
 	// Query
 	$('#search').val(query[3]);
 }
+
+// Register SW
+navigator.serviceWorker.register('sw.js');
 // Initialize data
 updateReleases();
 

@@ -43,7 +43,7 @@ body {
 	justify-content: center;
 }
 
-.paging #how-many {
+.paging #how-many, .paging #data-date {
 	width: 100%;
 	flex-grow: 1;
 }
