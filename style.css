@@ -28,6 +28,10 @@ body {
 	width: 30%;
 }
 
+.filter .mdc-text-field__icon {
+	height: 50%;
+}
+
 .filter > div {
 	vertical-align: super;
 }
