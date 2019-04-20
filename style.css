@@ -81,6 +81,16 @@ body {
 	word-wrap: break-word;
 }
 
+.mdc-list .table-icon {
+	height: 1rem;
+	margin-left: 0.5em;
+}
+
+.mdc-list .license-icon {
+	height: 1rem;
+	margin-right: 0.5em;
+}
+
 .mdc-list .content {
 	flex-grow: 1;
 	padding: 1em;

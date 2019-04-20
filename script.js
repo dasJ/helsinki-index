@@ -130,8 +130,8 @@ function updateTable() {
 				.addClass('mdc-list-item__text')
 				.addClass('title')
 				.text(isPkgs ? config['name'] : name)
-				.append((!isPkgs && config['readOnly']) ? $('<span/>').addClass('material-icons').attr('aria-hidden', true).text('lock') : '')
-				.append((isPkgs && 'meta' in config && 'broken' in config['meta'] && config['meta']['broken']) ? $('<span/>').addClass('material-icons').attr('aria-hidden', true).text('broken_image') : ''))
+				.append((!isPkgs && config['readOnly']) ? $('<img/>').addClass('table-icon').attr('src', 'lock.png').attr('alt', 'Read-only').attr('title', 'Read-only') : '')
+				.append((isPkgs && 'meta' in config && 'broken' in config['meta'] && config['meta']['broken']) ? $('<img/>').addClass('table-icon').attr('src', 'broken_image.png').attr('alt', 'Broken').attr('title', 'Broken') : ''))
 			.append($('<div/>')
 				.addClass('content')
 				.append(isPkgs ? buildPackageTable(name, config) : buildOptionTable(config))
@@ -334,7 +334,9 @@ function buildPackageTable(attr, pkg) {
 			license = $('<span/>').text(licenseData);
 		} else {
 			license = $('<span/>').text(licenseData.fullName + ' (' + licenseData.shortName + ')');
-			license.prepend($('<span/>').addClass('material-icons').attr('aria-hidden', true).text(('free' in licenseData && !licenseData.free) ? 'lock' : 'lock_open'))
+			var isUnfree = ('free' in licenseData && !licenseData.free);
+			var freeText = isUnfree ? 'Unfree' : 'Free';
+			license.prepend($('<img/>').addClass('license-icon').attr('src', isUnfree ? 'lock.png' : 'lock_open.png').attr('alt', freeText).attr('title', freeText));
 		}
 	}
 
