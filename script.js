@@ -1,8 +1,10 @@
 // Settings
-var resultsPerPage = 100; // Results per page
-var nixosReleases = [ '18.09', 'unstable' ];
-var hmReleases = [ 'unstable' ];
-var helsinkiUrl = 'https://no-url-yet/';
+if (typeof hasSettings === 'undefined') {
+	var resultsPerPage = 100; // Results per page
+	var nixosReleases = [ '18.09', 'unstable' ];
+	var hmReleases = [ 'unstable' ];
+	var helsinkiUrl = 'https://no-url-yet/';
+}
 
 // Variables
 var expanded = null; // Currently expanded object
