@@ -221,7 +221,7 @@ function buildOptionTable(opt) {
 				url = 'https://github.com/NixOS/nixpkgs/tree/'+ ((currentRelease == 'unstable') ? 'master' : 'release-' + currentRelease) + '/' + module;
 			}
 			if (module.startsWith('helsinki')) {
-				url = helsinkiUrl + module;
+				url = helsinkiUrl + module.slice('helsinki/'.length);
 			}
 			if (isHm) {
 				url = 'https://github.com/rycee/home-manager/tree/'+ ((currentRelease == 'unstable') ? 'master' : 'release-' + currentRelease) + '/' + module;
