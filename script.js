@@ -735,7 +735,9 @@ if (query.length >= 4) {
 }
 
 // Register SW
-navigator.serviceWorker.register('sw.js');
+if (navigator.serviceWorker) {
+	navigator.serviceWorker.register('sw.js');
+}
 // Initialize data
 updateReleases();
 
