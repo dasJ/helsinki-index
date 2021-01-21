@@ -228,8 +228,8 @@ function buildOptionTable(opt) {
 			if (module.startsWith('nixos')) {
 				url = 'https://github.com/NixOS/nixpkgs/tree/'+ ((currentRelease == 'unstable') ? 'master' : 'release-' + currentRelease) + '/' + module;
 			}
-			if (module.startsWith('helsinki')) {
-				url = helsinkiUrl + module.slice('helsinki/'.length);
+			if (module.startsWith('3modules/')) {
+				url = helsinkiUrl + module;
 			}
 			if (isHm) {
 				url = 'https://github.com/rycee/home-manager/tree/'+ ((currentRelease == 'unstable') ? 'master' : 'release-' + currentRelease) + '/' + module;
@@ -238,7 +238,7 @@ function buildOptionTable(opt) {
 				declarations.append(', ');
 			}
 			first = false;
-			declarations.append($('<a/>', { href: url}).text(module));
+			declarations.append($('<a/>', { href: url, rel: 'noopener noreferrer', target: '_blank'}).text(module));
 		});
 	}
 
