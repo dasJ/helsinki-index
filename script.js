@@ -137,6 +137,7 @@ function updateTable() {
 			.append($('<div/>')
 				.addClass('content')
 				.append(isPkgs ? buildPackageTable(name, config) : buildOptionTable(config))
+				.click((event) => { event.stopPropagation(); })
 			)
 			.append(isPkgs ? $('<div/>')
 				.addClass('mdc-list-item__secondary-text')
@@ -146,15 +147,22 @@ function updateTable() {
 				.text(name) : '')
 			.click(function(e) {
 				target = $(this).children('.content');
-
+				// Collapse expanded row if its not the current row
 				if (expanded != null && expanded.get(0) != target.get(0)) {
 					expanded.slideUp(300);
 					expanded.parent().removeClass('expanded');
 				}
 
-				target.slideDown(300);
-				target.parent().addClass('expanded');
-				expanded = target;
+				// Toggle expansion
+				if ($(this).get(0).classList.contains('expanded') ) {
+					target.slideUp(300);
+					target.parent().removeClass('expanded');
+					expanded = null;
+				} else {
+					target.slideDown(300);
+					target.parent().addClass('expanded');
+					expanded = target;
+				}
 			})
 		);
 	});
@@ -220,8 +228,8 @@ function buildOptionTable(opt) {
 			if (module.startsWith('nixos')) {
 				url = 'https://github.com/NixOS/nixpkgs/tree/'+ ((currentRelease == 'unstable') ? 'master' : 'release-' + currentRelease) + '/' + module;
 			}
-			if (module.startsWith('helsinki')) {
-				url = helsinkiUrl + module.slice('helsinki/'.length);
+			if (module.startsWith('3modules/')) {
+				url = helsinkiUrl + module;
 			}
 			if (isHm) {
 				url = 'https://github.com/rycee/home-manager/tree/'+ ((currentRelease == 'unstable') ? 'master' : 'release-' + currentRelease) + '/' + module;
@@ -230,7 +238,7 @@ function buildOptionTable(opt) {
 				declarations.append(', ');
 			}
 			first = false;
-			declarations.append($('<a/>', { href: url}).text(module));
+			declarations.append($('<a/>', { href: url, rel: 'noopener noreferrer', target: '_blank'}).text(module));
 		});
 	}
 
