@@ -153,16 +153,9 @@ function updateTable() {
 					expanded.parent().removeClass('expanded');
 				}
 
-				// Toggle expansion
-				if ($(this).get(0).classList.contains('expanded') ) {
-					target.slideUp(300);
-					target.parent().removeClass('expanded');
-					expanded = null;
-				} else {
-					target.slideDown(300);
-					target.parent().addClass('expanded');
-					expanded = target;
-				}
+				target.slideDown(300);
+				target.parent().addClass('expanded');
+				expanded = target;
 			})
 		);
 	});
