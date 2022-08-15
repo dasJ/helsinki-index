@@ -40,7 +40,7 @@ function refilter() {
 
 			function matchOption(word) {
 				return name.toLowerCase().indexOf(word) != -1
-					|| (val.description || '').toLowerCase().indexOf(word) != -1;
+					|| (typeof(val.description) === 'object' ? val.description.text : val.description || '').toLowerCase().indexOf(word) != -1;
 			};
 
 			function matchPkg(word) {
