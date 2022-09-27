@@ -118,6 +118,14 @@ body {
 	background: #cccccc;
 }
 
+.expanded xml li:nth-child(even) {
+	background: initial;
+}
+
+xml p {
+	margin: initial;
+}
+
 .expanded {
 	border: solid #888888 !important;
 }

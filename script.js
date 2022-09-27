@@ -177,10 +177,34 @@ function buildOptionTable(opt) {
 		$($('<a/>', { 'href': link }).html(inner)).replaceAll(el);
 	});
 
-	// Replace filenames with `<tt>`
+	// Replace filenames and variable names with `<tt>`
 	$(x).find('filename').each(function (i, el) {
 		var inner = el.innerHTML;
 		$($('<tt></tt>').html(inner)).replaceAll(el);
+	});
+	$(x).find('varname').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<tt></tt>').html(inner)).replaceAll(el);
+	});
+
+	// Replace codeblocks
+	$(x).find('programlisting').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<pre></pre>').html(inner)).replaceAll(el);
+	});
+
+	// Fixup lists
+	$(x).find('itemizedlist').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<ul></ul>').html(inner)).replaceAll(el);
+	});
+	$(x).find('orderedlist').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<ol></ol>').html(inner)).replaceAll(el);
+	});
+	$(x).find('listitem').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<li></li>').html(inner)).replaceAll(el);
 	});
 
 	// For each [option, literal], replace with equivalent `<code>`
