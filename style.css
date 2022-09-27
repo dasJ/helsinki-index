@@ -107,7 +107,8 @@ body {
 
 .mdc-list table td:first-child {
 	font-weight: bold;
-	vertical-align: middle;
+	vertical-align: top;
+	text-align: right;
 }
 
 .mdc-list li {
@@ -123,6 +124,10 @@ body {
 }
 
 xml p {
+	margin: initial;
+}
+
+.mdc-list pre {
 	margin: initial;
 }
 

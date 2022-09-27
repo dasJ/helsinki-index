@@ -166,75 +166,11 @@ function updateTable() {
 function buildOptionTable(opt) {
 	// Prepare description
 	var x = $.parseXML('<xml xmlns:xlink="http://www.w3.org/1999/xlink"><para>' + opt.description + '</para></xml>');
+	ppDocbook(x);
 
-	// Replace xlink with `<a>`
-	$(x).find('link').each(function(i, el) {
-		var link = $(el).attr('xlink:href');
-		var inner = el.innerHTML;
-		if (inner === '' || !inner) {
-			inner = link;
-		}
-		$($('<a/>', { 'href': link }).html(inner)).replaceAll(el);
-	});
-
-	// Replace filenames and variable names with `<tt>`
-	$(x).find('filename').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<tt></tt>').html(inner)).replaceAll(el);
-	});
-	$(x).find('varname').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<tt></tt>').html(inner)).replaceAll(el);
-	});
-
-	// Replace codeblocks
-	$(x).find('programlisting').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<pre></pre>').html(inner)).replaceAll(el);
-	});
-
-	// Fixup lists
-	$(x).find('itemizedlist').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<ul></ul>').html(inner)).replaceAll(el);
-	});
-	$(x).find('orderedlist').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<ol></ol>').html(inner)).replaceAll(el);
-	});
-	$(x).find('listitem').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<li></li>').html(inner)).replaceAll(el);
-	});
-
-	// For each [option, literal], replace with equivalent `<code>`
-	$(x).find('option, literal').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<code></code>').html(inner)).replaceAll(el);
-	});
-
-	// Fixes manpage references.
-	$(x).find('citerefentry manvolnum').each(function (i, el) {
-		var el = $(el).parent();
-		var title = el.children('refentrytitle')[0].innerHTML;
-		var volnum = el.children('manvolnum')[0].innerHTML;
-		$($('<tt class="man_page"></tt>').html(title + '(' + volnum + ')')).replaceAll(el);
-	});
-
-	// Loop for `<para>` inside `<para>`
-	var paras = [];
-	while ((paras = $(x).find('para')).length > 0) {
-		paras.each(function (i, el) {
-			var inner = el.innerHTML;
-			$($('<p></p>').html(inner)).replaceAll(el);
-		});
-	}
-
-	// For each [option, literal], replace with equivalent `<code>`
-	$(x).find('important').each(function (i, el) {
-		var inner = el.innerHTML;
-		$($('<div class="docbook-important"></div>').html(inner)).replaceAll(el);
-	});
+	// Prepare default and example
+	var def = ('default' in opt) ? renderDefaultOrExample(opt['default']) : '';
+	var exa = ('example' in opt) ? renderDefaultOrExample(opt['example']) : '';
 
 	// Figure out declarations
 	var declarations = $('<td/>');
@@ -273,7 +209,6 @@ function buildOptionTable(opt) {
 			.append($('<td/>')
 				.text('Type'))
 			.append($('<td/>')
-				.addClass('pre')
 				.text(('type' in opt) ? opt['type'] : 'Not given')
 			)
 		)
@@ -282,8 +217,7 @@ function buildOptionTable(opt) {
 			.append($('<td/>')
 				.text('Default'))
 			.append($('<td/>')
-				.addClass('pre')
-				.text(('default' in opt) ? ppNix('', opt['default']) : '')
+				.html(def)
 			)
 		)
 		// Example
@@ -292,7 +226,7 @@ function buildOptionTable(opt) {
 				.text('Example'))
 			.append($('<td/>')
 				.addClass('pre')
-				.text(('example' in opt) ? ppNix('', opt['example']) : '')
+				.text(exa)
 			)
 		)
 		// Declarations
@@ -638,6 +572,9 @@ function ppNix(indent, v) {
 	}
 
 	function needIndentation(v) {
+		if (v == null) {
+			return false;
+		}
 		if (typeof v == 'object') {
 			if (Array.isArray(v)) {
 				if (v.some(needIndentation)) {
@@ -736,6 +673,102 @@ function ppNix(indent, v) {
 		return res + outerIndent + "''";
 	}
 	return '' + v;
+}
+
+// Pretty-print docbook
+function ppDocbook(xml) {
+	// Replace xlink with `<a>`
+	$(xml).find('link').each(function(i, el) {
+		var link = $(el).attr('xlink:href');
+		var inner = el.innerHTML;
+		if (inner === '' || !inner) {
+			inner = link;
+		}
+		$($('<a/>', { 'href': link }).html(inner)).replaceAll(el);
+	});
+
+	// Replace filenames and variable names with `<tt>`
+	$(xml).find('filename').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<tt></tt>').html(inner)).replaceAll(el);
+	});
+	$(xml).find('varname').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<tt></tt>').html(inner)).replaceAll(el);
+	});
+
+	// Replace codeblocks
+	$(xml).find('programlisting').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<pre></pre>').html(inner)).replaceAll(el);
+	});
+
+	// Fixup lists
+	$(xml).find('itemizedlist').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<ul></ul>').html(inner)).replaceAll(el);
+	});
+	$(xml).find('orderedlist').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<ol></ol>').html(inner)).replaceAll(el);
+	});
+	$(xml).find('listitem').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<li></li>').html(inner)).replaceAll(el);
+	});
+
+	// For each [option, literal], replace with equivalent `<code>`
+	$(xml).find('option, literal').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<code></code>').html(inner)).replaceAll(el);
+	});
+
+	// Fixes manpage references.
+	$(xml).find('citerefentry manvolnum').each(function (i, el) {
+		var el = $(el).parent();
+		var title = el.children('refentrytitle')[0].innerHTML;
+		var volnum = el.children('manvolnum')[0].innerHTML;
+		$($('<tt class="man_page"></tt>').html(title + '(' + volnum + ')')).replaceAll(el);
+	});
+
+	// Loop for `<para>` inside `<para>`
+	var paras = [];
+	while ((paras = $(xml).find('para')).length > 0) {
+		paras.each(function (i, el) {
+			var inner = el.innerHTML;
+			$($('<p></p>').html(inner)).replaceAll(el);
+		});
+	}
+
+	// For each [option, literal], replace with equivalent `<code>`
+	$(xml).find('important').each(function (i, el) {
+		var inner = el.innerHTML;
+		$($('<div class="docbook-important"></div>').html(inner)).replaceAll(el);
+	});
+}
+
+// Render default or example
+function renderDefaultOrExample(x) {
+	var ret = '';
+	if (typeof x == 'object' && x != null && '_type' in x) {
+		type = x['_type'];
+		switch (type) {
+			case 'literalExpression':
+				ret = x.text;
+				break;
+			case 'literalDocBook':
+				ret = $.parseXML('<xml xmlns:xlink="http://www.w3.org/1999/xlink"><para>' + x.text + '</para></xml>');
+				ppDocbook(ret);
+				ret = $(ret).contents();
+				break;
+			default:
+				ret = 'Unknown type ' + type;
+				break;
+		}
+	} else {
+		ppNix('', ret);
+	}
+	return ret;
 }
 
 // Read back old query
