@@ -217,6 +217,7 @@ function buildOptionTable(opt) {
 			.append($('<td/>')
 				.text('Default'))
 			.append($('<td/>')
+				.addClass('pre')
 				.html(def)
 			)
 		)
@@ -766,7 +767,7 @@ function renderDefaultOrExample(x) {
 				break;
 		}
 	} else {
-		ppNix('', ret);
+		return ppNix('', x);
 	}
 	return ret;
 }
