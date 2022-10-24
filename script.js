@@ -165,7 +165,28 @@ function updateTable() {
 // Build option list
 function buildOptionTable(opt) {
 	// Prepare description
-	var x = $.parseXML('<xml xmlns:xlink="http://www.w3.org/1999/xlink"><para>' + opt.description + '</para></xml>');
+	var x;
+	if (typeof opt.description == 'object' && opt.description != null && '_type' in opt.description) {
+		type = opt.description['_type'];
+		switch (type) {
+			case 'literalExpression':
+				x = x.text;
+				break;
+			case 'literalDocBook':
+				x = $.parseXML('<xml xmlns:xlink="http://www.w3.org/1999/xlink"><para>' + opt.description.text + '</para></xml>');
+				x = $(x).contents();
+				break;
+			case 'mdDoc':
+				x = marked.parse(opt.description.text.replaceAll('{var}', '').replaceAll('{option}', ''));
+				break;
+			default:
+				x = 'Unknown type ' + type;
+				break;
+		}
+	} else {
+		x = $.parseXML('<xml xmlns:xlink="http://www.w3.org/1999/xlink"><para>' + opt.description + '</para></xml>');
+		x = $(x).contents();
+	}
 	ppDocbook(x);
 
 	// Prepare default and example
@@ -201,7 +222,7 @@ function buildOptionTable(opt) {
 			.append($('<td/>')
 				.text('Description'))
 			.append($('<td/>')
-				.append($(x).contents())
+				.append(x)
 			)
 		)
 		// Type
